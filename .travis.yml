@@ -53,5 +53,5 @@ jobs:
         provider: pypi
         user: "$PYPIUSER"
         password: "$PYPIKEY"
-        on:
-          branch: master
+      on:
+        tags: true
