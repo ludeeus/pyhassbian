@@ -10,7 +10,6 @@ setuptools.setup(
     author_email="ludeeus@gmail.com",
     description="",
     long_description=LONG,
-    install_requires=['os', 'pathlib', 'subprocess'],
     long_description_content_type="text/markdown",
     url="https://github.com/ludeeus/pyhassbian",
     packages=setuptools.find_packages(),

@@ -2,7 +2,7 @@ language: python
 stages:
   - linting
   - install
-#  - deploy
+  - deploy
 
 jobs:
   include:
@@ -37,7 +37,7 @@ jobs:
     # Test install the module
     - stage: install
       install: pip install -U pip setuptools wheel
-      name: "Setup test"
+      name: "Setup and import test"
       python: "3.6"
       script: 
         - python setup.py test
