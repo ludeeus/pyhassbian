@@ -1,4 +1,6 @@
-# pyhassbian - A python module to interact with hassbian-config
+# pyhassbian [![Build Status](https://travis-ci.com/ludeeus/pyhassbian.svg?branch=master)](https://travis-ci.com/ludeeus/pyhassbian)
+
+_A python module to interact with hassbian-config._
 
 ## Install
 

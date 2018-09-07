@@ -11,10 +11,7 @@ from pathlib import Path
 
 def get_is_installed():
     """Verify that hassbian-config is installed."""
-    if Path("/usr/local/bin/hassbian-config").is_file():
-        exist = True
-    else:
-        exist = False
+    exist = bool(Path("/usr/local/bin/hassbian-config").is_file())
     return exist
 
 
