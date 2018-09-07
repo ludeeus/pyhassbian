@@ -1,4 +1,4 @@
-# pyhassbian [![Build Status](https://travis-ci.com/ludeeus/pyhassbian.svg?branch=master)](https://travis-ci.com/ludeeus/pyhassbian)
+# pyhassbian [![Build Status](https://travis-ci.com/ludeeus/pyhassbian.svg?branch=master)](https://travis-ci.com/ludeeus/pyhassbian) [![PyPI version](https://badge.fury.io/py/pyhassbian.svg)](https://badge.fury.io/py/pyhassbian)
 
 _A python module to interact with hassbian-config._
 
