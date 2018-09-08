@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 
 
-def get_is_installed():
+def is_installed():
     """Verify that hassbian-config is installed."""
     exist = bool(Path("/usr/local/bin/hassbian-config").is_file())
     return exist
@@ -28,7 +28,7 @@ def get_version():
     """Return the version of hassbian-config."""
     command = subprocess.Popen(['hassbian-config', '--version'],
                                stdout=subprocess.PIPE)
-    out = command.communicate()[:-2]
+    out = command.communicate()
     version = str(out[0][:-1]).split("'")[1]
     return version
 

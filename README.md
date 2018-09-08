@@ -12,7 +12,7 @@ pip install pyhassbian
 
 ```python
 import pyhassbian
-pyhassbian.get_is_installed()
+pyhassbian.is_installed()
 # Sample output: True
 ```
 
@@ -29,7 +29,7 @@ print(pyhassbian.get_suites())
 ```python
 import pyhassbian
 print(pyhassbian.get_version())
-# Sample output: 0.9.3
+# Sample output: '0.9.3'
 ```
 
 ### Install or upgrade a suite with hassbian-config
