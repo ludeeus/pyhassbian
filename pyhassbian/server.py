@@ -4,14 +4,6 @@ from pyhassbian.manager import Manager
 from pyhassbian.serverfiles import static
 
 
-async def defaultsite(request):
-    """Serve root."""
-    print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
-    content = static.STYLE
-    content += static.DEFAULT
-    content += static.FOOTER
-    return web.Response(body=content, content_type="text/html")
-
 async def html(request):
     """Serve a HTML site."""
     print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
