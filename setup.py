@@ -11,6 +11,7 @@ setuptools.setup(
     description="",
     long_description=LONG,
     long_description_content_type="text/markdown",
+    install_requires=['aiohttp', 'requests', 'click'],
     url="https://github.com/ludeeus/pyhassbian",
     packages=setuptools.find_packages(),
     classifiers=(
