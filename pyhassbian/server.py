@@ -62,10 +62,10 @@ async def get_log():
     """Get version data."""
     return Manager().log()
 
-def run_server():
+def run_server(port):
     """Run the server."""
     app = web.Application()
     app.router.add_route('GET', r'/', html, name='html')
-    app.router.add_route('GET', r'/log', html, name='log')
+    app.router.add_route('GET', r'/log', log, name='log')
     app.router.add_route('GET', r'/json', json, name='json')
-    web.run_app(app, port=9999)
+    web.run_app(app, port=port)
