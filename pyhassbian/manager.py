@@ -71,11 +71,13 @@ class Manager():
         out = command.communicate()
         return out
 
-    def get_suite_state(self):
-        """Return the state of the suite."""
-        state = None
+    def suite_installed(self):
+        """Return a bool that indicates if the suite is installed."""
+        suite_state = False
         filename = "/srv/homeassistant/hassbian/control/{}".format(self.suite)
         if os.path.isfile(filename):
             with open(filename, 'r') as myfile:
                 state = myfile.read().split('\n')[0].split('SCRIPTSTATE=')[1]
-        return state
+                if state == 'installed':
+                    suite_state = True
+        return suite_state
