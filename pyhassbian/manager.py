@@ -69,7 +69,7 @@ class Manager():
         command = subprocess.Popen(
             ['sudo', 'hassbian-config', 'log'], stdout=subprocess.PIPE)
         out = command.communicate()
-        return str(out)
+        return str(out[0][:-1])
 
     def suite_installed(self):
         """Return a bool that indicates if the suite is installed."""
