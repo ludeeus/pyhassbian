@@ -31,7 +31,7 @@ class Manager():
                 self.suites.append(file[:-3])
         return self.suites
 
-    def get_version(self):
+    async def get_version(self):
         """Return the version of hassbian-config."""
         command = subprocess.Popen(
             ['hassbian-config', '--version'], stdout=subprocess.PIPE)
@@ -39,7 +39,7 @@ class Manager():
         version = str(out[0][:-1]).split("'")[1]
         return version
 
-    def manage_suite(self):
+    async def manage_suite(self):
         """Upgrade a suite with hassbian-config."""
         self.get_suites()
         if self.suite in self.suites:
@@ -58,15 +58,24 @@ class Manager():
             cmd.append("--accept")
             subprocess.call(cmd)
 
-    def os_upgrade(self):
+    async def os_upgrade(self):
         """Upgrade the base OS."""
         subprocess.call(
             ['sudo', 'hassbian-config', 'upgrade', 'hassbian',
              '--accept', '--dev'])
 
-    def log(self):
+    async def log(self):
         """Return log output."""
         command = subprocess.Popen(
             ['sudo', 'hassbian-config', 'log'], stdout=subprocess.PIPE)
         out = command.communicate()
         return out
+
+    async def get_suite_state(self):
+        """Return the state of the suite."""
+        state = None
+        filename = "/srv/homeassistant/hassbian/control/{}".format(self.suite)
+        if os.path.isfile(filename):
+            with open(filename, 'r') as myfile:
+                state = myfile.read().split('\n')[0].split('SCRIPTSTATE=')[1]
+        return state
