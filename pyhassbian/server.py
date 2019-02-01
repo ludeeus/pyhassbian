@@ -42,7 +42,7 @@ async def log(request):
     lastlog = await get_log()
     lastlog = lastlog.replace('\n', '</br>')
 
-    content = static.CARD.format(title='log', content=lastlog, docs='doclink')
+    content += static.CARD.format(title='log', content=lastlog, docs='doclink')
 
     content += '</main>'
     content += static.FOOTER
