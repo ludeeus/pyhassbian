@@ -40,6 +40,7 @@ async def log(request):
     content += '<main>'
 
     lastlog = await get_log()
+    lastlog = lastlog.replace('\n', '</br>')
 
     content = static.CARD.format(title='log', content=lastlog, docs='doclink')
 
