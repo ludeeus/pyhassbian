@@ -26,13 +26,14 @@ async def html(request):
     for suite in suites:
         comp = suite
 
-        pull = 'pull'
         doclink = 'doclink'
+        filename = "/opt/hassbian/suites/{}.sh".format(suite)
+        with open(filename, 'r') as myfile:
+            shortdesc = myfile.read().replace('\n', ' ')[0]
+            shortdesc = shortdesc.split('echo "')[1].split('"')[0]
+        content += static.CARD.format(
+            title=comp, content=shortdesc, docs=doclink)
 
-        content += static.CARD.format(pull=pull, title=comp,
-                                      content='description',
-                                      docs=doclink,
-                                      prlink='prlink')
     content += '</main>'
     content += static.FOOTER
     return web.Response(body=content, content_type="text/html")
@@ -40,8 +41,6 @@ async def html(request):
 async def json(request):
     """Serve the response as JSON."""
     json_data = await get_data()
-    if not json_data:
-        return web.json_response({'error': 'No changes found.'})
     return web.json_response(json_data)
 
 
@@ -52,7 +51,6 @@ async def get_data():
 def run_server():
     """Run the server."""
     app = web.Application()
-    app.router.add_route('GET', r'/', defaultsite, name='defaultsite')
-    app.router.add_route('GET', r'/{version}', html, name='html')
-    app.router.add_route('GET', r'/{version}/json', json, name='json')
+    app.router.add_route('GET', r'/', html, name='html')
+    app.router.add_route('GET', r'/json', json, name='json')
     web.run_app(app, port=9999)

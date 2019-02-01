@@ -66,13 +66,12 @@ CARD = """
   <div class="row">
     <div class="col s12">
       <div class="card blue-grey darken-1">
-        <div class="card-content white-text" id="{pull}">
-          <a href="#{pull}"><span class="card-title"><i class="fa fa-link"></i> {title}</span></a>
+        <div class="card-content white-text" id="{title}">
+          <a href="#{title}"><span class="card-title"><i class="fa fa-link"></i> {title}</span></a>
           <p>{content}</p>
         </div>
         <div class="card-action">
-          <a href="{docs}" target="_blank">Documentation</a>
-          <a href="{prlink}" target="_blank">Pull request</a>
+          <a href="{docs}" target="_blank">More info</a>
         </div>
       </div>
     </div>
