@@ -29,7 +29,7 @@ async def html(request):
         doclink = 'doclink'
         filename = "/opt/hassbian/suites/{}.sh".format(suite)
         with open(filename, 'r') as myfile:
-            shortdesc = myfile.read().replace('\n', ' ')[0]
+            shortdesc = myfile.read().replace('\n', ' ')
             shortdesc = shortdesc.split('echo "')[1].split('"')[0]
         content += static.CARD.format(
             title=comp, content=shortdesc, docs=doclink)
