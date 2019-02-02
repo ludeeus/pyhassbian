@@ -1,51 +1,63 @@
 """Webserver."""
 from aiohttp import web
 from pyhassbian.manager import Manager
-from pyhassbian.serverfiles import static
+from pyhassbian.generated import generated
 
 
 async def html(request):
     """Serve a HTML site."""
     print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
-    content = static.STYLE
-    version = 96
-    content += static.HEADER.format(version=version, previous=95, next=97)
+    content = generated.STYLE
+    content += generated.HEADER
 
-    content += '<main>'
+    content += '<main class="suites">'
 
     suites = await get_data()
 
     for suite in suites:
-        comp = suite
-
-        doclink = 'doclink'
         filename = "/opt/hassbian/suites/{}.sh".format(suite)
         with open(filename, 'r') as myfile:
             shortdesc = myfile.read().replace('\n', ' ')
             shortdesc = shortdesc.split('echo "')[1].split('"')[0]
-        content += static.CARD.format(
-            title=comp, content=shortdesc, docs=doclink)
+        content += generated.CARD.format(
+            title=suite, content=shortdesc, more=suite)
 
     content += '</main>'
-    content += static.FOOTER
+    return web.Response(body=content, content_type="text/html")
+
+async def suiteview(request):
+    """Serve a HTML site."""
+    print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
+    suite = request.match_info['suite']
+    content = generated.STYLE
+    content += generated.HEADER
+
+    content += '<main class="suite">'
+
+    filename = "/opt/hassbian/suites/{}.sh".format(suite)
+    with open(filename, 'r') as myfile:
+        shortdesc = myfile.read().replace('\n', ' ')
+        shortdesc = shortdesc.split('echo "')[1].split('"')[0]
+    content += generated.CARD.format(
+        title=suite, content=shortdesc, more=suite)
+
+    content += '</main>'
     return web.Response(body=content, content_type="text/html")
 
 async def log(request):
     """Serve a HTML site."""
     print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
-    content = static.STYLE
-    version = 96
-    content += static.HEADER.format(version=version, previous=95, next=97)
+    content = generated.STYLE
+    content += generated.HEADER
 
-    content += '<main>'
+    content += '<main class="log">'
 
     lastlog = await get_log()
     lastlog = lastlog.replace('\n', '</br>')
 
-    content += static.CARD.format(title='log', content=lastlog, docs='doclink')
+    content += generated.LOG.format(lastlog)
 
     content += '</main>'
-    content += static.FOOTER
     return web.Response(body=content, content_type="text/html")
 
 async def json(request):
@@ -68,4 +80,6 @@ def run_server(port):
     app.router.add_route('GET', r'/', html, name='html')
     app.router.add_route('GET', r'/log', log, name='log')
     app.router.add_route('GET', r'/json', json, name='json')
+    app.router.add_route('GET', r'/{suite}', suiteview, name='suiteview')
+    app.router.add_static('/static/', path=str('./pyhassbian/static/'))
     web.run_app(app, port=port)

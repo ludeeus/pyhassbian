@@ -66,10 +66,12 @@ class Manager():
 
     def log(self):
         """Return log output."""
-        command = subprocess.Popen(
-            ['sudo', 'hassbian-config', 'log'], stdout=subprocess.PIPE)
-        out = command.communicate()
-        return str(out[0][:-1])
+        logentry = ''
+        filename = "/tmp/hassbian.log"
+        if os.path.isfile(filename):
+            with open(filename, 'r') as myfile:
+                logentry = myfile.read()
+        return logentry
 
     def suite_installed(self):
         """Return a bool that indicates if the suite is installed."""
