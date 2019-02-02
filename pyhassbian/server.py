@@ -72,9 +72,7 @@ async def suiteview(request):
     content += '<main class="suite">'
 
     filename = "/opt/hassbian/suites/{}.sh".format(suite)
-    with open(
-        filename, mode='r', buffering=-1, encoding='utf8', errors=None,
-        newline=None, closefd=True, opener=None) as myfile:
+    with open(filename, 'r') as myfile:
         myfile = myfile.read().replace('\n', '</br>')
         myfile = myfile.replace('\\n', '').replace('printf ', '')
         myfile = myfile.replace('\\', '')
