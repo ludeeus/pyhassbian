@@ -56,6 +56,7 @@ class Manager():
                 else:
                     cmd.append(self.suite)
             cmd.append("--accept")
+            cmd.append("--force")
             subprocess.call(cmd)
 
     def os_upgrade(self):
