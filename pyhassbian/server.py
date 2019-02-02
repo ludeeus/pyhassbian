@@ -31,7 +31,7 @@ async def html(request):
 
     suites = await get_data()
 
-    for suite in suites.sort():
+    for suite in suites:
         if suite in SUITES:
             if Manager(suite=suite).suite_installed():
                 title = "{} (installed)".format(suite)
