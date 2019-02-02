@@ -4,7 +4,7 @@ from aiohttp import web
 from pyhassbian.manager import Manager
 from pyhassbian.generated import generated
 
-DIRPATH =  os.path.dirname(os.path.realpath(__file__))
+DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
 SUITES = ['appdaemon',
           'cloud9',
@@ -15,6 +15,7 @@ SUITES = ['appdaemon',
           'homebridge',
           'hue',
           'libcec',
+          'manager',
           'mosquitto',
           'pihole',
           'razberry',

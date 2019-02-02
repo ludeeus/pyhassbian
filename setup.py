@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     LONG = fh.read()
 setuptools.setup(
     name="pyhassbian",
-    version="0.1.1",
+    version="0.1.2",
     author="Joakim Sorensen",
     author_email="ludeeus@gmail.com",
     description="",
@@ -14,6 +14,7 @@ setuptools.setup(
     install_requires=['aiohttp', 'requests', 'click'],
     url="https://github.com/ludeeus/pyhassbian",
     packages=setuptools.find_packages(),
+    package_data={'': ['./static/*']},
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
