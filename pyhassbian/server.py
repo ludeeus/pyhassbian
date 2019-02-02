@@ -107,7 +107,7 @@ async def suiteview(request):
     if has_install:
         if suite != 'homebridge':
             buttons += '<a href="/{}/install" class="install">Install</a>'.format(suite)
-    if installed or suite in ['homeassistant', 'hassbian-script']:
+    if installed or suite in ['homeassistant', 'hassbian-script', 'hassbian']:
         if has_upgrade:
             buttons += '<a href="/{}/upgrade" class="upgrade">Upgrade</a>'.format(suite)
         if has_remove:
