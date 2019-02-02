@@ -92,7 +92,9 @@ async def suiteview(request):
         longdesc = myfile.split('show-long-info {')[1].split('}')[0]
         longdesc = longdesc.replace('echo "', '').replace('"', '')
 
-    if Manager(suite=suite).suite_installed():
+    installed = Manager(suite=suite).suite_installed()
+
+    if installed:
         title = "{} (installed)".format(suite)
     else:
         title = suite
@@ -104,10 +106,11 @@ async def suiteview(request):
     if has_install:
         if suite != 'homebridge':
             buttons += '<a href="/{}/install" class="install">Install</a>'.format(suite)
-    if has_upgrade:
-        buttons += '<a href="/{}/upgrade" class="upgrade">Upgrade</a>'.format(suite)
-    if has_remove:
-        buttons += '<a href="/{}/remove" class="remove">Remove</a>'.format(suite)
+    if installed:
+        if has_upgrade:
+            buttons += '<a href="/{}/upgrade" class="upgrade">Upgrade</a>'.format(suite)
+        if has_remove:
+            buttons += '<a href="/{}/remove" class="remove">Remove</a>'.format(suite)
 
     buttons += '<a href="{}" target="_blank">Documentation</a>'.format(docs)
 
