@@ -32,6 +32,10 @@ async def html(request):
 
     for suite in suites:
         if suite in SUITES:
+            if Manager(suite=suite).suite_installed():
+                title = "{} (installed)".format(suite)
+            else:
+                title = suite
             filename = "/opt/hassbian/suites/{}.sh".format(suite)
             with open(filename, 'r') as myfile:
                 myfile = myfile.read().replace('\n', '')
@@ -40,10 +44,11 @@ async def html(request):
                 shortdesc = myfile.split('show-short-info {')[1].split('}')[0]
                 shortdesc = shortdesc.replace('echo "', '').replace('"', '')
             content += generated.CARD.format(
-                title=suite, content=shortdesc, more=suite)
+                title=title, content=shortdesc, more=suite)
 
     content += '</main>'
     return web.Response(body=content, content_type="text/html")
+
 
 async def suiteview(request):
     """Serve a HTML site."""
@@ -86,6 +91,10 @@ async def suiteview(request):
         longdesc = myfile.split('show-long-info {')[1].split('}')[0]
         longdesc = longdesc.replace('echo "', '').replace('"', '')
 
+    if Manager(suite=suite).suite_installed():
+        title = "{} (installed)".format(suite)
+    else:
+        title = suite
 
     body = shortdesc
     body += '</br>'
@@ -99,12 +108,10 @@ async def suiteview(request):
     if has_remove:
         buttons += '<a href="/{}/remove" class="remove">Remove</a>'.format(suite)
 
-
     buttons += '<a href="{}" target="_blank">Documentation</a>'.format(docs)
 
-
     content += generated.SUITE.format(
-        title=suite, content=body, buttons=buttons)
+        title=title, content=body, buttons=buttons)
     content += '<div class="loader"></div>'
     content += '</main>'
     return web.Response(body=content, content_type="text/html")
