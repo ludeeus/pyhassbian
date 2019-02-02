@@ -29,7 +29,7 @@ class Manager():
         for file in os.listdir("/opt/hassbian/suites"):
             if file.endswith(".sh"):
                 self.suites.append(file[:-3])
-        return self.suites.sort()
+        return sorted(self.suites)
 
     def get_version(self):
         """Return the version of hassbian-config."""
