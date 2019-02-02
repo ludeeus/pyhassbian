@@ -85,7 +85,7 @@ async def suiteview(request):
 
     content += generated.SUITE.format(
         title=suite, content=body, buttons=buttons)
-
+    content += '<div class="loader"></div>'
     content += '</main>'
     return web.Response(body=content, content_type="text/html")
 
