@@ -33,7 +33,8 @@ async def html(request):
 
     for suite in suites:
         if suite in SUITES:
-            if Manager(suite=suite).suite_installed():
+            installed = Manager(suite=suite).suite_installed()
+            if installed or suite in ['homeassistant', 'hassbian-script', 'hassbian']:
                 title = "{} (installed)".format(suite)
             else:
                 title = suite
@@ -95,7 +96,7 @@ async def suiteview(request):
 
     installed = Manager(suite=suite).suite_installed()
 
-    if installed:
+    if installed or suite in ['homeassistant', 'hassbian-script', 'hassbian']:
         title = "{} (installed)".format(suite)
     else:
         title = suite
