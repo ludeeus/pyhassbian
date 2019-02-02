@@ -23,7 +23,6 @@ SUITES = ['appdaemon',
 
 async def html(request):
     """Serve a HTML site."""
-    print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
     content = generated.STYLE
     content += generated.HEADER
 
@@ -48,7 +47,6 @@ async def html(request):
 
 async def suiteview(request):
     """Serve a HTML site."""
-    print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
     suite = request.match_info['suite']
     has_upgrade = False
     has_install = False
@@ -113,7 +111,6 @@ async def suiteview(request):
 
 async def log(request):
     """Serve a HTML site."""
-    print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
     content = generated.STYLE
     content += generated.HEADER
 
