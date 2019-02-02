@@ -151,7 +151,10 @@ async def install(request):
 async def upgrade(request):
     """upgrade suite"""
     suite = request.match_info['suite']
-    Manager(suite=suite, mode='upgrade').manage_suite()
+    if suite == 'hassbian':
+        Manager().os_upgrade()
+    else:
+        Manager(suite=suite, mode='upgrade').manage_suite()
     raise web.HTTPFound('/' + suite)
 
 
