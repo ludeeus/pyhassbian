@@ -20,7 +20,7 @@ jobs:
       name: "Setup and import test"
       python: "3.6"
       script: 
-        - python setup.py test
+        - python setup.py install
         - python -c"import pyhassbian"
 
 
