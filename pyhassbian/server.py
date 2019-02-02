@@ -3,6 +3,7 @@ from aiohttp import web
 from pyhassbian.manager import Manager
 from pyhassbian.generated import generated
 
+
 SUITES = ['appdaemon',
           'cloud9',
           'fail2ban',
@@ -19,6 +20,7 @@ SUITES = ['appdaemon',
           'tradfri',
           'webterminal',
           'zigbee2mqtt']
+
 
 async def html(request):
     """Serve a HTML site."""
@@ -115,6 +117,7 @@ async def suiteview(request):
     content += '</main>'
     return web.Response(body=content, content_type="text/html")
 
+
 async def log(request):
     """Serve a HTML site."""
     content = generated.STYLE
@@ -130,10 +133,12 @@ async def log(request):
     content += '</main>'
     return web.Response(body=content, content_type="text/html")
 
+
 async def json(request):
     """Serve the response as JSON."""
     json_data = await get_data()
     return web.json_response(json_data)
+
 
 async def install(request):
     """Install suite"""
@@ -141,11 +146,13 @@ async def install(request):
     Manager(suite=suite, mode='install').manage_suite()
     raise web.HTTPFound('/' + suite)
 
+
 async def upgrade(request):
     """upgrade suite"""
     suite = request.match_info['suite']
     Manager(suite=suite, mode='upgrade').manage_suite()
     raise web.HTTPFound('/' + suite)
+
 
 async def remove(request):
     """remove suite"""
@@ -153,15 +160,18 @@ async def remove(request):
     Manager(suite=suite, mode='remove').manage_suite()
     raise web.HTTPFound('/' + suite)
 
+
 async def get_data():
     """Get version data."""
     return Manager().get_suites()
+
 
 async def get_log():
     """Get version data."""
     return Manager().log()
 
-def run_server(port):
+
+async def run_server(port):
     """Run the server."""
     app = web.Application()
     app.router.add_route('GET', r'/', html, name='html')
