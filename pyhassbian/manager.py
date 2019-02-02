@@ -43,7 +43,7 @@ class Manager():
         """Upgrade a suite with hassbian-config."""
         self.get_suites()
         if self.suite in self.suites:
-            cmd = ['echo', 'y', '|', 'sudo', 'hassbian-config', self.mode]
+            cmd = ['sudo', 'hassbian-config', self.mode]
             if self.dev:
                 cmd.append(self.suite)
                 cmd.append("--dev")
