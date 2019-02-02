@@ -90,6 +90,9 @@ async def suiteview(request):
         longdesc = myfile.split('show-long-info {')[1].split('}')[0]
         longdesc = longdesc.replace('echo "', '').replace('"', '')
 
+        if longdesc == shortdesc:
+            longdesc = ''
+
     installed = Manager(suite=suite).suite_installed()
 
     if installed:
