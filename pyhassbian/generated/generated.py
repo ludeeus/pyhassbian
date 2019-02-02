@@ -41,6 +41,22 @@ CARD = """
   </div>
 """
 
+SUITE = """
+  <div class="row">
+    <div class="col s12">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text" id="{title}">
+          <span class="card-title">{title}</span>
+          <p>{content}</p>
+        </div>
+        <div class="card-action">
+          {buttons}
+        </div>
+      </div>
+    </div>
+  </div>
+"""
+
 LOG = """
   <div class="row">
     <div class="col s12">

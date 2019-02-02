@@ -17,8 +17,11 @@ async def html(request):
     for suite in suites:
         filename = "/opt/hassbian/suites/{}.sh".format(suite)
         with open(filename, 'r') as myfile:
-            shortdesc = myfile.read().replace('\n', ' ')
-            shortdesc = shortdesc.split('echo "')[1].split('"')[0]
+            myfile = myfile.read().replace('\n', '')
+            myfile = myfile.replace('\\n', '').replace('printf ', '')
+            myfile = myfile.replace('\\', '')
+            shortdesc = myfile.split('show-short-info {')[1].split('}')[0]
+            shortdesc = shortdesc.replace('echo "', '').replace('"', '')
         content += generated.CARD.format(
             title=suite, content=shortdesc, more=suite)
 
@@ -29,17 +32,59 @@ async def suiteview(request):
     """Serve a HTML site."""
     print("Session from:", request.headers.get('X-FORWARDED-FOR', None))
     suite = request.match_info['suite']
+    has_upgrade = False
+    has_install = False
+    has_remove = False
+
+    buttons = ''
+
+    docs = "https://github.com/home-assistant/hassbian-scripts/blob/master/"
+    docs += "docs/{}.md".format(suite)
+
     content = generated.STYLE
     content += generated.HEADER
 
     content += '<main class="suite">'
 
     filename = "/opt/hassbian/suites/{}.sh".format(suite)
-    with open(filename, 'r') as myfile:
-        shortdesc = myfile.read().replace('\n', ' ')
-        shortdesc = shortdesc.split('echo "')[1].split('"')[0]
-    content += generated.CARD.format(
-        title=suite, content=shortdesc, more=suite)
+    with open(
+        filename, mode='r', buffering=-1, encoding='utf8', errors=None,
+        newline=None, closefd=True, opener=None) as myfile:
+        myfile = myfile.read().replace('\n', '</br>')
+        myfile = myfile.replace('\\n', '').replace('printf ', '')
+        myfile = myfile.replace('\\', '')
+
+        if '-install-package' in myfile:
+            has_install = True
+        if '-upgrade-package' in myfile:
+            has_upgrade = True
+        if '-remove-package' in myfile:
+            has_remove = True
+
+        shortdesc = myfile.split('show-short-info {')[1].split('}')[0]
+        shortdesc = shortdesc.replace('echo "', '').replace('"', '')
+
+        longdesc = myfile.split('show-long-info {')[1].split('}')[0]
+        longdesc = longdesc.replace('echo "', '').replace('"', '')
+
+
+    body = shortdesc
+    body += '</br>'
+    body += longdesc
+
+    if has_install:
+        buttons += '<a href="/{}/install" class="install">Install</a>'.format(suite)
+    if has_upgrade:
+        buttons += '<a href="/{}/upgrade" class="upgrade">Upgrade</a>'.format(suite)
+    if has_remove:
+        buttons += '<a href="/{}/remove" class="remove">Remove</a>'.format(suite)
+
+
+    buttons += '<a href="{}" target="_blank">Documentation</a>'.format(docs)
+
+
+    content += generated.SUITE.format(
+        title=suite, content=body, buttons=buttons)
 
     content += '</main>'
     return web.Response(body=content, content_type="text/html")
@@ -65,6 +110,23 @@ async def json(request):
     json_data = await get_data()
     return web.json_response(json_data)
 
+async def install(request):
+    """Install suite"""
+    suite = request.match_info['suite']
+    Manager(suite=suite, mode='install').manage_suite()
+    raise web.HTTPFound('/' + suite)
+
+async def upgrade(request):
+    """upgrade suite"""
+    suite = request.match_info['suite']
+    Manager(suite=suite, mode='upgrade').manage_suite()
+    raise web.HTTPFound('/' + suite)
+
+async def remove(request):
+    """remove suite"""
+    suite = request.match_info['suite']
+    Manager(suite=suite, mode='remove').manage_suite()
+    raise web.HTTPFound('/' + suite)
 
 async def get_data():
     """Get version data."""
@@ -81,5 +143,8 @@ def run_server(port):
     app.router.add_route('GET', r'/log', log, name='log')
     app.router.add_route('GET', r'/json', json, name='json')
     app.router.add_route('GET', r'/{suite}', suiteview, name='suiteview')
+    app.router.add_route('GET', r'/{suite}/install', install, name='install')
+    app.router.add_route('GET', r'/{suite}/upgrade', upgrade, name='upgrade')
+    app.router.add_route('GET', r'/{suite}/remove', remove, name='remove')
     app.router.add_static('/static/', path=str('./pyhassbian/static/'))
     web.run_app(app, port=port)
