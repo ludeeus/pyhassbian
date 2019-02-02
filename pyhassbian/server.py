@@ -1,8 +1,10 @@
 """Webserver."""
+import os
 from aiohttp import web
 from pyhassbian.manager import Manager
 from pyhassbian.generated import generated
 
+DIRPATH =  os.path.dirname(os.path.realpath(__file__))
 
 SUITES = ['appdaemon',
           'cloud9',
@@ -189,5 +191,5 @@ def run_server(port):
     app.router.add_route('GET', r'/{suite}/install', install, name='install')
     app.router.add_route('GET', r'/{suite}/upgrade', upgrade, name='upgrade')
     app.router.add_route('GET', r'/{suite}/remove', remove, name='remove')
-    app.router.add_static('/static/', path=str('./pyhassbian/static/'))
+    app.router.add_static('/static/', path=str(DIRPATH + '/static/'))
     web.run_app(app, port=port)
