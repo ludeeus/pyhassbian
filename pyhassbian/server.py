@@ -3,6 +3,7 @@ from aiohttp import web
 from pyhassbian.manager import Manager
 from pyhassbian.generated import generated
 
+SKIP_SUITES = ['mssql', 'mariadb', 'mysql', 'postgresql']
 
 async def html(request):
     """Serve a HTML site."""
@@ -15,15 +16,16 @@ async def html(request):
     suites = await get_data()
 
     for suite in suites:
-        filename = "/opt/hassbian/suites/{}.sh".format(suite)
-        with open(filename, 'r') as myfile:
-            myfile = myfile.read().replace('\n', '')
-            myfile = myfile.replace('\\n', '').replace('printf ', '')
-            myfile = myfile.replace('\\', '')
-            shortdesc = myfile.split('show-short-info {')[1].split('}')[0]
-            shortdesc = shortdesc.replace('echo "', '').replace('"', '')
-        content += generated.CARD.format(
-            title=suite, content=shortdesc, more=suite)
+        if suite not in SKIP_SUITES:
+            filename = "/opt/hassbian/suites/{}.sh".format(suite)
+            with open(filename, 'r') as myfile:
+                myfile = myfile.read().replace('\n', '')
+                myfile = myfile.replace('\\n', '').replace('printf ', '')
+                myfile = myfile.replace('\\', '')
+                shortdesc = myfile.split('show-short-info {')[1].split('}')[0]
+                shortdesc = shortdesc.replace('echo "', '').replace('"', '')
+            content += generated.CARD.format(
+                title=suite, content=shortdesc, more=suite)
 
     content += '</main>'
     return web.Response(body=content, content_type="text/html")
