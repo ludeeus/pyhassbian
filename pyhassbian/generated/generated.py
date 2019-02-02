@@ -1,7 +1,7 @@
 """Static texts."""
 STYLE = """
 <head>
-    <title>Hassbian</title>
+    <title>Hassbian Manager</title>
     <link rel="shortcut icon" href="/static/package.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
@@ -17,7 +17,7 @@ HEADER = """
 <header>
   <nav>
     <div class="nav-wrapper">
-      <a href="/" class="brand-logo">&nbsp;&nbsp;&nbsp;HASSBIAN-CONFIG</a>
+      <a href="/" class="brand-logo">&nbsp;&nbsp;&nbsp;Hassbian Manager</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="/">Suites</a></li>
         <li><a href="/log">Log</a></li>
