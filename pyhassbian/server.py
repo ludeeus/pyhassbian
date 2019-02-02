@@ -3,7 +3,7 @@ from aiohttp import web
 from pyhassbian.manager import Manager
 from pyhassbian.generated import generated
 
-SKIP_SUITES = ['mssql', 'mariadb', 'mysql', 'postgresql']
+SKIP_SUITES = ['mssql', 'mariadb', 'mysql', 'postgresql', 'python']
 
 async def html(request):
     """Serve a HTML site."""
@@ -41,7 +41,10 @@ async def suiteview(request):
     buttons = ''
 
     docs = "https://github.com/home-assistant/hassbian-scripts/blob/master/"
-    docs += "docs/{}.md".format(suite)
+    if suite == 'hassbian-script':
+        docs += "docs/hassbian_config.md"
+    else:
+        docs += "docs/{}.md".format(suite)
 
     content = generated.STYLE
     content += generated.HEADER
