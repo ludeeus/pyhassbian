@@ -171,7 +171,7 @@ async def get_log():
     return Manager().log()
 
 
-async def run_server(port):
+def run_server(port):
     """Run the server."""
     app = web.Application()
     app.router.add_route('GET', r'/', html, name='html')
