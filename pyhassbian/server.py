@@ -3,7 +3,23 @@ from aiohttp import web
 from pyhassbian.manager import Manager
 from pyhassbian.generated import generated
 
-SKIP_SUITES = ['mssql', 'mariadb', 'mysql', 'postgresql', 'python']
+SUITES = ['appdaemon',
+          'cloud9',
+          'fail2ban',
+          'hassbian-script',
+          'hassbian',
+          'homeassistant',
+          'homebridge',
+          'hue',
+          'libcec',
+          'monitor',
+          'mosquitto',
+          'pihole',
+          'razberry',
+          'samba',
+          'tradfri',
+          'webterminal',
+          'zigbee2mqtt']
 
 async def html(request):
     """Serve a HTML site."""
@@ -16,7 +32,7 @@ async def html(request):
     suites = await get_data()
 
     for suite in suites:
-        if suite not in SKIP_SUITES:
+        if suite in SUITES:
             filename = "/opt/hassbian/suites/{}.sh".format(suite)
             with open(filename, 'r') as myfile:
                 myfile = myfile.read().replace('\n', '')
@@ -78,7 +94,8 @@ async def suiteview(request):
     body += longdesc
 
     if has_install:
-        buttons += '<a href="/{}/install" class="install">Install</a>'.format(suite)
+        if suite != 'homebridge':
+            buttons += '<a href="/{}/install" class="install">Install</a>'.format(suite)
     if has_upgrade:
         buttons += '<a href="/{}/upgrade" class="upgrade">Upgrade</a>'.format(suite)
     if has_remove:
