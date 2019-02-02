@@ -17,7 +17,7 @@ HEADER = """
 <header>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">&nbsp;&nbsp;&nbsp;HASSBIAN-CONFIG</a>
+      <a href="/" class="brand-logo">&nbsp;&nbsp;&nbsp;HASSBIAN-CONFIG</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a href="/">Suites</a></li>
         <li><a href="/log">Log</a></li>
