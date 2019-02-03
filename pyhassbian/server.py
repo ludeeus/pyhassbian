@@ -8,6 +8,7 @@ DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
 SUITES = ['appdaemon',
           'cloud9',
+          'custom-component-store',
           'fail2ban',
           'hassbian-script',
           'hassbian',
