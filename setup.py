@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
     LONG = fh.read()
 setuptools.setup(
     name="pyhassbian",
-    version="0.1.4",
+    version="0.2.0",
     author="Joakim Sorensen",
     author_email="ludeeus@gmail.com",
     description="",
     long_description=LONG,
     long_description_content_type="text/markdown",
-    install_requires=['aiohttp', 'requests', 'click'],
+    install_requires=['aiohttp', 'requests', 'click', 'aiohttp_basicauth'],
     url="https://github.com/ludeeus/pyhassbian",
     packages=setuptools.find_packages(),
     package_data={'': ['./static/*']},

@@ -3,6 +3,7 @@ import os
 from aiohttp import web
 from pyhassbian.manager import Manager
 from pyhassbian.generated import generated
+from aiohttp_basicauth import BasicAuthMiddleware
 
 DIRPATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -182,9 +183,14 @@ async def get_log():
     return Manager().log()
 
 
-def run_server(port):
+def run_server(port, username, password, no_auth):
     """Run the server."""
-    app = web.Application()
+    if not no_auth:
+        auth = BasicAuthMiddleware(
+            username=username, password=password, force=True)
+        app = web.Application(middlewares=[auth])
+    else:
+        app = web.Application()
     app.router.add_route('GET', r'/', html, name='html')
     app.router.add_route('GET', r'/log', log, name='log')
     app.router.add_route('GET', r'/json', json, name='json')
